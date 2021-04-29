@@ -28,7 +28,10 @@
                     </a>
                 </td>
                 <td>
-                    <span th:text="${temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span th:text="${post.author}"></span>
+                </td>
+                <td>
+                    <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </td>
             </tr>
             </tbody>

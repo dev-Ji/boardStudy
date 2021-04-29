@@ -29,8 +29,11 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	runtimeOnly 'org.webjars:bootstrap:4.5.0'
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 test {
 	useJUnitPlatform()
 }
+
+apply plugin: 'idea'
