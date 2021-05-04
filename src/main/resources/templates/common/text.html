@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-body">
+      <h5 class="card-title">data[0].title</h5>
+      <p class="card-text"><small class="text-muted" th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></small></p>
+      <p class="card-text" th:text="${post.content}"></p>
+      <div th:if="${file.origFilename != ''}">
+        <strong>첨부파일 : </strong>
+        <a class="card-text" th:href="@{'/download/' + ${post.fileId}}" th:text="${file.origFilename}"></a>
+      </div>
+  </div>
+</div>

@@ -118,4 +118,9 @@ public class BoardController {
                 .body(resource);
     }
 
+    @GetMapping("/rest/json")
+    public String rest() {
+        return "board/rest.html";
+    }
+
 }

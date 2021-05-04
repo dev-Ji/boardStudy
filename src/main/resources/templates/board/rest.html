@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        loadPage();
+    });
+
+    function loadPage() {
+                $.ajax({
+                    type: "GET",
+                    contentType : 'application/json',
+                    url: "/rest/json/",
+                    cache : false,
+                    success: function (data) {
+                        console.log(data);
+                        if(updateList(data)){
+                            addViewEvent();
+                        }
+                    }
+                })
+            };
+
+
+    function updateList(data){
+        result = "";
+        for(var i =0; i < data.length; i++){
+            result += "<tr class='text-center'>\n";
+            result += "<th scope='row'>\n";
+            result += "<span>"+ data[i].id +"</span>\n";
+            result += "</th>\n";
+            result += "<td>\n";
+            result += "<a href='javascript:detail("+data[i].id+");'>\n";
+            result += "<span>"+ data[i].title +"</span>\n";
+            result += "</a>\n";
+            result += "</td>\n";
+            result += "<td>\n";
+            result += "<span>"+ data[i].author +"</span>\n";
+            result += "</td>\n";
+            result += "<td>\n";
+            result += "<span>"+ data[i].createdDate +"</span>\n";
+            result += "</td>\n";
+            result += "</tr>\n";
+        }
+        $("#detail").hide();
+        $(".container tbody").html(result);
+    }
+
+    function detail(id){
+      result = "";
+        $.ajax({
+                    type: "GET",
+                    url: "/rest/json/detail/"+id,
+                    cache : false,
+                    success: function (data) {
+                            $("#list").hide();
+                            $("#detail").show();
+                            result += '<h5 class="card-title">'+data.title + ' - ' + data.author +'</h5>\n';
+                            result += '<p class="card-text"><small class="text-muted">' + data.createdDate + '</small></p>\n';
+                            result += '<p class="card-text">'+ data.content +'</p>\n';
+                            $(".card .card-body").html(result);
+
+                    }
+                })
+    }
+</script>
+<head>
+  <meta charset="UTF-8">
+  <title>게시판 - 목록</title>
+  <link rel='stylesheet' href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="common/header.html"></header>
+<div class="container" id="list">
+  <table class="table">
+    <thead class="thead-light">
+    <tr class="text-center">
+      <th scope="col">#</th>
+      <th scope="col">제목</th>
+      <th scope="col">작성자</th>
+      <th scope="col">작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-auto mr-auto"></div>
+    <div class="col-auto">
+      <a class="btn btn-primary" th:href="@{/post}" role="button">글쓰기</a>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="detail">
+  <div class="card">
+    <div class="card-body">
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-auto mr-auto"></div>
+  </div>
+</div>
+
+</body>
+</html>
